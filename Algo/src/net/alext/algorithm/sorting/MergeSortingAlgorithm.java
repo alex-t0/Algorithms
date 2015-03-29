@@ -6,6 +6,7 @@ public class MergeSortingAlgorithm <TInput extends List<Comparable<?>>> extends 
 
 	@Override
 	public TInput Process(TInput input) {
+		// not implemented now
 		return input;
 	}
 

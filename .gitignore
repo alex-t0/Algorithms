@@ -12,7 +12,8 @@ local.properties
 .settings/
 .loadpath
 
-.remommenders
+.recommenders
+build
 
 # Eclipse Core
 .project

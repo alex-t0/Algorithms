@@ -11,4 +11,10 @@ public class SomeClassTest {
 		
 		Assert.assertEquals(5, sc.return5());
 	}
+	
+	@Test
+	public void FailInRuntime_1(){
+		Object[] arr = new String[10];
+		arr[0] = new Integer(10);
+	}
 }

@@ -37,4 +37,8 @@ public abstract class SortingAlgorithm <TInput extends List<T>, T extends Compar
 		input.set(index1, input.get(index2));
 		input.set(index2, tmp);
 	}
+
+	protected int getSortKoef() {
+		return sortDirection == SortDirection.Ascending ? -1 : 1;
+	}
 }

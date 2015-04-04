@@ -3,6 +3,7 @@ package net.alext.algorithm.sorting;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MergeSortingTest {
@@ -11,5 +12,7 @@ public class MergeSortingTest {
 		MergeSortingAlgorithm<List<Integer>, Integer> algorithm = new MergeSortingAlgorithm<>();
 		
 		List<Integer> process = algorithm.Process(Arrays.<Integer>asList(1, 3, 2));
+		
+		Assert.assertEquals(Arrays.<Integer>asList(1, 2, 3), process);
 	}
 }

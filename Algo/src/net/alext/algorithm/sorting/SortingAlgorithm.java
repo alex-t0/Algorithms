@@ -10,12 +10,10 @@ public abstract class SortingAlgorithm <TInput extends List<T>, T extends Compar
 	implements Algorithm<TInput, TInput> {
 	
 	protected SortDirection sortDirection;
-	// protected TInput input;
 	
-	public SortingAlgorithm(/*TInput input, */SortDirection sortDirection) {
+	public SortingAlgorithm(SortDirection sortDirection) {
 		super();
 		this.sortDirection = sortDirection;
-		// this.input = input;
 	}
 
 	public SortingAlgorithm() {

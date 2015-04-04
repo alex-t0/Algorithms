@@ -6,18 +6,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import junit.framework.TestCase;
-import net.alext.algorithm.exceptions.AlgorithmException;
 import net.alext.algorithm.sorting.exceptions.SortingAlgorithmException;
 import net.alext.algorithm.sorting.exceptions.ZeroSizeSortingAlgorithmException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-public class BubbleSortingTest extends TestCase {
+@RunWith(Parameterized.class)
+public class SortingAlgorithmTest {
+	
+	interface AlgorithmCreator {
+		SortingAlgorithm<List<Integer>, Integer> Create();
+	}
+	
+	private AlgorithmCreator creator;
+	
+	@Parameters
+	public static Iterable<Object[]> Algorithms() {
+		
+		return Arrays.asList((Object[][])new AlgorithmCreator[][] { 
+			{ () -> new BubbleSortingAlgorithm<List<Integer>, Integer>() },
+			{ () -> new InsertSortingAlgorithm<List<Integer>, Integer>() },
+			{ () -> new MergeSortingAlgorithm<List<Integer>, Integer>() }
+		});
+	}
+	
+	public SortingAlgorithmTest(AlgorithmCreator creator) {
+		super();
+		this.creator = creator;
+	}
+
 	@Test
-	public void Test1() throws SortingAlgorithmException {
-		BubbleSortingAlgorithm<List<Integer>, Integer> algorithm = new BubbleSortingAlgorithm<>();
+	public void CommonCases() throws SortingAlgorithmException {
+		
+		SortingAlgorithm<List<Integer>, Integer> algorithm = creator.Create();
 		
 		List<Integer> processed = algorithm.Process(Arrays.<Integer>asList(1, 3, 2));
 		
@@ -36,9 +61,8 @@ public class BubbleSortingTest extends TestCase {
 	}
 	
 	@Test(expected = ZeroSizeSortingAlgorithmException.class)
-	public void TestExceptionWhenEmpty() throws AlgorithmException {
-		SortingAlgorithm<List<Integer>, Integer> algorithm = new BubbleSortingAlgorithm<>();
-		
+	public void TestExceptionWhenEmpty() throws SortingAlgorithmException {
+		SortingAlgorithm<List<Integer>, Integer> algorithm = creator.Create();
 		algorithm.Process(Arrays.<Integer>asList());
 	}
 	
@@ -51,22 +75,17 @@ public class BubbleSortingTest extends TestCase {
 	}
 	
 	@Test
-	public void BigArrayTest() throws AlgorithmException {
-		
-		SortingAlgorithm<List<Integer>, Integer> algorithm = new BubbleSortingAlgorithm<>();
-		
+	public void BigArrayTest() throws SortingAlgorithmException {
+			
 		ArrayList<Integer> toSort = new ArrayList<>();
 		
 		for (int i=0; i<100000; i++){
 			toSort.add(generateRandomInteger(0, 1000000));
 		}
 		
-		System.out.println("Size of toSort: " + toSort.size());
-			
+		SortingAlgorithm<List<Integer>, Integer> algorithm = creator.Create();
 		List<Integer> sorted = algorithm.Process(toSort);
-		
-		System.out.println("Now sorted");
-		
+			
 		for (int i = 0; i< toSort.size() - 1; i++){
 			Assert.assertTrue(sorted.get(i) <= sorted.get(i+1));
 		}

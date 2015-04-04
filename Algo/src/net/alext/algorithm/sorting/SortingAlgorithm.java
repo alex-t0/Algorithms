@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.alext.algorithm.Algorithm;
 import net.alext.algorithm.sorting.exceptions.ZeroSizeSortingAlgorithmException;
+import net.alext.algorithm.sorting.exceptions.SortingAlgorithmException;
 
 public abstract class SortingAlgorithm <TInput extends List<T>, T extends Comparable<T>> 
 	implements Algorithm<TInput, TInput> {
@@ -21,6 +22,8 @@ public abstract class SortingAlgorithm <TInput extends List<T>, T extends Compar
 		super();
 		this.sortDirection = SortDirection.Ascending;
 	}
+
+	public abstract TInput Process(TInput input) throws SortingAlgorithmException;
 	
 	public void SetDirection(SortDirection direction){
 		this.sortDirection = direction;

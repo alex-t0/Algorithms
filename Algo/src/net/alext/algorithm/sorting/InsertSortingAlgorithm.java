@@ -17,6 +17,7 @@ public class InsertSortingAlgorithm<TInput extends List<TElement>, TElement exte
 		for (int pointerIndex = 1; pointerIndex < input.size(); pointerIndex++) {
 
 			int currentPointerIndex = pointerIndex;
+			// TODO: use binary search
 			while (currentPointerIndex > 0 && 
 					sortKoef * input.get(currentPointerIndex).compareTo(input.get(currentPointerIndex - 1)) > 0) {
 				this.switchElements(input, currentPointerIndex, currentPointerIndex - 1);

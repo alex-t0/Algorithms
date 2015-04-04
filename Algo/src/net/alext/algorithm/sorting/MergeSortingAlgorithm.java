@@ -3,6 +3,8 @@ package net.alext.algorithm.sorting;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.alext.algorithm.sorting.exceptions.ZeroSizeSortingAlgorithmException;
+
 public class MergeSortingAlgorithm <TInput extends List<T>, T extends Comparable<T>> extends SortingAlgorithm<TInput, T> {
 
 	interface InsertAction<T extends Comparable<T>> {
@@ -11,7 +13,7 @@ public class MergeSortingAlgorithm <TInput extends List<T>, T extends Comparable
 	
 	private ArrayList<T> createPreparedPair(List<T> input, int currentIndex, int sortKoef){
 		T value1 = input.get(currentIndex);
-		T value2 = input.get(currentIndex);
+		T value2 = input.get(currentIndex + 1);
 		
 		ArrayList<T> result = new ArrayList<>();
 		
@@ -78,20 +80,35 @@ public class MergeSortingAlgorithm <TInput extends List<T>, T extends Comparable
 	}
 	
 	@Override
-	public TInput Process(TInput input) {
-		// not implemented now
+	public TInput Process(TInput input) throws ZeroSizeSortingAlgorithmException {
+
+		CheckInput(input);
 		
-		// TInput x = new TInput();
+		if (input.size() == 1)
+			return input;
 		
 		// 0. Divide in pairs
 		List<List<T>> divided = new ArrayList<List<T>>();
 		int currentIndex = 0;
 		int sortKoef = getSortKoef();
-		while (currentIndex <= input.size() - 3){
+		while (currentIndex <= 2 * (input.size() / 2) - 1){
 			divided.add(createPreparedPair(input, currentIndex, sortKoef));
 			currentIndex += 2;
 		}
 
+		if (input.size() == 2){
+			List<T> firstDividedPair = divided.get(0);
+			input.set(0, firstDividedPair.get(0));
+			input.set(1, firstDividedPair.get(1));
+			return input;
+		}
+		
+		if (currentIndex == input.size() - 1){
+			ArrayList<T> last = new ArrayList<>();
+			last.add(input.get(input.size() - 1));
+			divided.add(last);
+		}
+			
 		// 1. While count of arrays in divided greather than 2, merge first 2 arrays,
 		// put result at end, and remove merged arrays from divided
 		while (divided.size() > 2){

@@ -79,7 +79,7 @@ public class SortingAlgorithmTest {
 			
 		ArrayList<Integer> toSort = new ArrayList<>();
 		
-		for (int i=0; i<100000; i++){
+		for (int i=0; i<10000; i++){
 			toSort.add(generateRandomInteger(0, 1000000));
 		}
 		
@@ -89,5 +89,27 @@ public class SortingAlgorithmTest {
 		for (int i = 0; i< toSort.size() - 1; i++){
 			Assert.assertTrue(sorted.get(i) <= sorted.get(i+1));
 		}
+	}
+	
+	@Test
+	public void MultipleArrayTest() throws SortingAlgorithmException {
+			
+		ArrayList<List<Integer>> arrays = new ArrayList<>();
+		
+		for (int i=0; i<1000000; i++){
+			ArrayList<Integer> current = new ArrayList<>();
+			for (int j = 0; j < 10; j++)
+				current.add(generateRandomInteger(0, 1000000));
+			arrays.add(current);
+		}
+		
+		SortingAlgorithm<List<Integer>, Integer> algorithm = creator.Create();
+		
+		for (int i = 0; i < arrays.size(); i++)
+			arrays.set(i, algorithm.Process(arrays.get(i))) ;
+			
+		for (int i = 0; i < arrays.size(); i++)
+			for (int j = 0; j < arrays.get(i).size() - 1; j++)
+				Assert.assertTrue(arrays.get(i).get(j) <= arrays.get(i).get(j+1));
 	}
 }

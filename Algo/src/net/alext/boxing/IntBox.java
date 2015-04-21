@@ -1,26 +1,13 @@
 package net.alext.boxing;
 
-public class IntBox implements AddableBox<Integer> {
-
-	private Integer instance;
-	
-	@Override
-	public void box(Integer val) {
-		instance = val;
-		
-	}
-
-	@Override
-	public Integer unbox() {
-		return instance;
-	}
+public class IntBox extends BaseBox<Integer> {
 
 	@Override
 	public AddableBox<Integer> add(AddableBox<Integer> other) {
-		Integer result = instance + other.unbox();
-		IntBox boxResult = new IntBox();
-		boxResult.box(result);
-		return boxResult;
+		Integer otherInt = other.unbox();
+		Integer sum = otherInt + instance;
+		IntBox result = new IntBox();
+		result.box(sum);
+		return result;
 	}
-
 }

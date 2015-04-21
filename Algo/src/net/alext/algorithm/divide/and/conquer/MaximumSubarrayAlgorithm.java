@@ -2,20 +2,33 @@ package net.alext.algorithm.divide.and.conquer;
 
 import java.util.List;
 
-import net.alext.boxing.AddableBox;
+import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerAlgorithmException;
+import net.alext.boxing.BaseBox;
 
-public class MaximumSubarrayAlgorithm<TArray extends List<AddableBox<T>>, T extends Comparable<T>> 
-	extends DivideAndConquerAlgorithm<TArray, ArrayRangePair> {
+public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends Comparable<T>> 
+	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData> {
 
-	private ArrayRangePair FindCrossingSubArray(TArray source, Integer middle, ArrayRangePair boundaries){
+	private ArrayRangeData FindCrossingSubArray(TArray source, Integer middle, ArrayRangeData boundaries) 
+			throws DivideAndConquerAlgorithmException {
+		
+		if (middle >= boundaries.Right || middle < boundaries.Left) // middle applies to left part
+			throw new DivideAndConquerAlgorithmException("Invalid middle point: miss interval");
+		
+		Integer leftSum = null, rightSum = null;
+		BaseBox<T> sum = null;
+		
+		//for (int i = middle; i >= 0; i--){
+		//	sum = sum.add(source.get(i));
+		//}
+		
 		return null;
 	}
 	
 	@Override
-	public ArrayRangePair ProcessSimple(TArray simple) {
+	public ArrayRangeData ProcessSimple(TArray simple) {
 		
-		AddableBox<T> t1 = simple.get(0);
-		AddableBox<T> t2 = simple.get(1);
+		BaseBox<T> t1 = simple.get(0);
+		BaseBox<T> t2 = simple.get(1);
 
 		t1 = t1.add(t2);
 		
@@ -30,7 +43,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<AddableBox<T>>, T exte
 	}
 
 	@Override
-	public ArrayRangePair Conquer(List<ArrayRangePair> simples) {
+	public ArrayRangeData Conquer(List<ArrayRangeData> simples) {
 		// TODO Auto-generated method stub
 		return null;
 	}

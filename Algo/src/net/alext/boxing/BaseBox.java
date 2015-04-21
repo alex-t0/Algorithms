@@ -1,6 +1,6 @@
 package net.alext.boxing;
 
-public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T> {
+public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>, Cloneable {
 
 	protected T instance;
 
@@ -21,5 +21,13 @@ public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T> 
 
 	// seems to impossible to implement, so we make current class abstract
 	@Override
-	public abstract AddableBox<T> add(AddableBox<T> other);
+	public abstract BaseBox<T> add(AddableBox<T> other);
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		
+		
+		
+		return super.clone();
+	}
 }

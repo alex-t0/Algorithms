@@ -8,18 +8,31 @@ import net.alext.boxing.BaseBox;
 public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends Comparable<T>> 
 	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData> {
 
+	@SuppressWarnings("unchecked")
 	private ArrayRangeData FindCrossingSubArray(TArray source, Integer middle, ArrayRangeData boundaries) 
-			throws DivideAndConquerAlgorithmException {
+			throws DivideAndConquerAlgorithmException, CloneNotSupportedException {
 		
 		if (middle >= boundaries.Right || middle < boundaries.Left) // middle applies to left part
 			throw new DivideAndConquerAlgorithmException("Invalid middle point: miss interval");
 		
-		Integer leftSum = null, rightSum = null;
+		BaseBox<T> leftSum = null, rightSum = null;
 		BaseBox<T> sum = null;
 		
-		//for (int i = middle; i >= 0; i--){
-		//	sum = sum.add(source.get(i));
-		//}
+		Integer leftPosition = 0;
+		Integer rightPosition = 0;
+		
+		for (int i = middle; i >= boundaries.Left; i--){
+			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
+			
+			if (leftSum != null && sum.compareTo(leftSum) > 0){
+				
+			}
+		}
+		
+		sum = null;
+		for (int i = middle + 1; i <= boundaries.Right; i++){
+			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
+		}
 		
 		return null;
 	}

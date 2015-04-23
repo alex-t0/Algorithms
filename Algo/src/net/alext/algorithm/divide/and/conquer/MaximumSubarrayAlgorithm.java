@@ -6,10 +6,10 @@ import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerAlgorit
 import net.alext.boxing.BaseBox;
 
 public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends Comparable<T>> 
-	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData> {
+	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData<T>> {
 
 	@SuppressWarnings("unchecked")
-	private ArrayRangeData FindCrossingSubArray(TArray source, Integer middle, ArrayRangeData boundaries) 
+	private ArrayRangeData<T> FindCrossingSubArray(TArray source, Integer middle, ArrayRangeData<T> boundaries) 
 			throws DivideAndConquerAlgorithmException, CloneNotSupportedException {
 		
 		if (middle >= boundaries.Right || middle < boundaries.Left) // middle applies to left part
@@ -24,21 +24,35 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		for (int i = middle; i >= boundaries.Left; i--){
 			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
 			
-			if (leftSum != null && sum.compareTo(leftSum) > 0){
-				
+			if (leftSum == null || sum.compareTo(leftSum) > 0){
+				leftSum = (BaseBox<T>) sum.clone();
+				leftPosition = i;
 			}
 		}
 		
 		sum = null;
 		for (int i = middle + 1; i <= boundaries.Right; i++){
 			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
+			
+			if (rightSum == null || sum.compareTo(rightSum) > 0){
+				rightSum = (BaseBox<T>) sum.clone();
+				rightPosition = i;
+			}
 		}
 		
-		return null;
+		final Integer finalLeftPosition = leftPosition;
+		final Integer finalRightPosition = rightPosition;
+		final BaseBox<T> finalSum = leftSum.add(rightSum);
+		
+		return new ArrayRangeData<T>(){{
+			Left = finalLeftPosition;
+			Right = finalRightPosition;
+			Sum = finalSum;
+		}};
 	}
 	
 	@Override
-	public ArrayRangeData ProcessSimple(TArray simple) {
+	public ArrayRangeData<T> ProcessSimple(TArray simple) {
 		
 		BaseBox<T> t1 = simple.get(0);
 		BaseBox<T> t2 = simple.get(1);
@@ -56,7 +70,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 	}
 
 	@Override
-	public ArrayRangeData Conquer(List<ArrayRangeData> simples) {
+	public ArrayRangeData<T> Conquer(List<ArrayRangeData<T>> simples) {
 		// TODO Auto-generated method stub
 		return null;
 	}

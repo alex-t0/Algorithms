@@ -6,21 +6,26 @@ import java.util.stream.Collectors;
 import net.alext.algorithm.Algorithm;
 import net.alext.algorithm.exceptions.AlgorithmException;
 
-public abstract class DivideAndConquerAlgorithm<TInput, TResult> implements Algorithm <TInput, TResult> {
-
-	public abstract TResult ProcessSimple(TInput simple);
+public abstract class DivideAndConquerAlgorithm<TInput, TResult, TDividedInput, TDividedResult> implements Algorithm <TInput, TResult> {
 	
-	public abstract List<TInput> Divide(TInput input);
+	protected abstract TDividedResult ProcessSimple(TInput input, TDividedInput simple) throws AlgorithmException;
 	
-	public abstract TResult Conquer(List<TResult> simples);
+	protected abstract List<TDividedInput> Divide(TInput input);
+	
+	protected abstract TResult Conquer(List<TDividedResult> simples);
 	
 	@Override
 	public TResult Process(TInput input) throws AlgorithmException {
-		return Conquer(
-				Divide(input).stream()
-					.map(x -> ProcessSimple(x))
-						.collect(Collectors.toList()) 
-				);
+			return Conquer(
+					Divide(input).stream()
+						.map(x -> { 
+							try {
+								return ProcessSimple(input, x);
+							}
+							catch (AlgorithmException ae){
+								return null;
+							}
+					}).collect(Collectors.toList()));
 	}
 
 }

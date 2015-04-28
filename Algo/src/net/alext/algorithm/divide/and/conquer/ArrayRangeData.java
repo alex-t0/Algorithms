@@ -7,4 +7,11 @@ public class ArrayRangeData<T extends Comparable<T>> {
 	public int Right;
 	
 	public BaseBox<T> Sum;
+
+	public ArrayRangeData(int left, int right, BaseBox<T> sum) {
+		super();
+		Left = left;
+		Right = right;
+		Sum = sum;
+	}
 }

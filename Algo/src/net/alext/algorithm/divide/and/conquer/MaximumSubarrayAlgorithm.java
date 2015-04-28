@@ -1,13 +1,15 @@
 package net.alext.algorithm.divide.and.conquer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerAlgorithmException;
+import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerSimpleDataNullPointerException;
 import net.alext.boxing.BaseBox;
 
 public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends Comparable<T>> 
-	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData<T>> {
-
+	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData<T>, ArrayRangeData<T>, ArrayRangeData<T>> {
+	
 	@SuppressWarnings("unchecked")
 	private ArrayRangeData<T> FindCrossingSubArray(TArray source, Integer middle, ArrayRangeData<T> boundaries) 
 			throws DivideAndConquerAlgorithmException, CloneNotSupportedException {
@@ -40,38 +42,48 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 			}
 		}
 		
-		final Integer finalLeftPosition = leftPosition;
-		final Integer finalRightPosition = rightPosition;
-		final BaseBox<T> finalSum = leftSum.add(rightSum);
-		
-		return new ArrayRangeData<T>(){{
-			Left = finalLeftPosition;
-			Right = finalRightPosition;
-			Sum = finalSum;
-		}};
+		return new ArrayRangeData<T>(leftPosition, rightPosition, leftSum.add(rightSum));
 	}
-	
-	@Override
-	public ArrayRangeData<T> ProcessSimple(TArray simple) {
-		
-		BaseBox<T> t1 = simple.get(0);
-		BaseBox<T> t2 = simple.get(1);
 
-		t1 = t1.add(t2);
+	@SuppressWarnings("unchecked")
+	@Override
+	protected ArrayRangeData<T> ProcessSimple(TArray input,
+			ArrayRangeData<T> simple) throws DivideAndConquerAlgorithmException {
 		
+		if (simple == null) 
+			throw new DivideAndConquerSimpleDataNullPointerException();
+		
+		// check that length is 1
+		if (simple.Right != simple.Left)
+			throw new DivideAndConquerAlgorithmException("Input must be simple (length = 1)");
+		
+		try {
+			return new ArrayRangeData<T>(simple.Left, simple.Right, (BaseBox<T>) input.get(simple.Left).clone());
+		}
+		catch (CloneNotSupportedException e){
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected List<ArrayRangeData<T>> Divide(TArray input) {
+		
+		List<ArrayRangeData<T>> result = new ArrayList<>();
+		
+		for (int i = 0; i < input.size(); i++){
+			try {
+				result.add(new ArrayRangeData<T>(i, i, (BaseBox<T>) input.get(i).clone()));
+			} catch (CloneNotSupportedException e) {}
+		}
+		
+		return result;
+	}
+
+	@Override
+	protected ArrayRangeData<T> Conquer(List<ArrayRangeData<T>> simples) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public List<TArray> Divide(TArray input) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayRangeData<T> Conquer(List<ArrayRangeData<T>> simples) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

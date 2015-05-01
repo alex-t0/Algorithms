@@ -34,7 +34,7 @@ public class MaximumSubarrayAlgorithmTests {
 		method.setAccessible(true);
 		
 		@SuppressWarnings("unchecked")
-		ArrayRangeData<Integer> result = (ArrayRangeData<Integer>) method.invoke(algorithm, list, 3, new ArrayRangeData<Integer>(){{Left = 0; Right = 5;}});
+		ArrayRangeData<Integer> result = (ArrayRangeData<Integer>) method.invoke(algorithm, list, 3, new ArrayRangeData<Integer>(0, 5));
 		
 		Assert.assertEquals(0, result.Left);
 		Assert.assertEquals(4, result.Right);

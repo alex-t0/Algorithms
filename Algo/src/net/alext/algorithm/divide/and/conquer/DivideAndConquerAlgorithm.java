@@ -4,19 +4,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.alext.algorithm.Algorithm;
+import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerAlgorithmException;
 import net.alext.algorithm.exceptions.AlgorithmException;
 
 public abstract class DivideAndConquerAlgorithm<TInput, TResult, TDividedInput, TDividedResult> implements Algorithm <TInput, TResult> {
 	
-	protected abstract TDividedResult ProcessSimple(TInput input, TDividedInput simple) throws AlgorithmException;
+	protected abstract TDividedResult ProcessSimple(TInput input, TDividedInput simple) throws DivideAndConquerAlgorithmException;
 	
-	protected abstract List<TDividedInput> Divide(TInput input);
+	protected abstract List<TDividedInput> Divide(TInput input) throws DivideAndConquerAlgorithmException;
 	
-	protected abstract TResult Conquer(List<TDividedResult> simples);
+	protected abstract TResult Conquer(TInput input, List<TDividedResult> simples);
 	
 	@Override
 	public TResult Process(TInput input) throws AlgorithmException {
-			return Conquer(
+			return Conquer(input,
 					Divide(input).stream()
 						.map(x -> { 
 							try {

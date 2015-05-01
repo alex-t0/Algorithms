@@ -14,4 +14,8 @@ public class ArrayRangeData<T extends Comparable<T>> {
 		Right = right;
 		Sum = sum;
 	}
+	
+	public ArrayRangeData(int left, int right) {
+		this(left, right, null);
+	}
 }

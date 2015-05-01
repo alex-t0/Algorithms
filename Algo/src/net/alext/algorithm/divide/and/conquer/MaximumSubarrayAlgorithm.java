@@ -67,23 +67,51 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected List<ArrayRangeData<T>> Divide(TArray input) {
+	protected List<ArrayRangeData<T>> Divide(TArray input) throws DivideAndConquerAlgorithmException {
 		
 		List<ArrayRangeData<T>> result = new ArrayList<>();
 		
 		for (int i = 0; i < input.size(); i++){
 			try {
 				result.add(new ArrayRangeData<T>(i, i, (BaseBox<T>) input.get(i).clone()));
-			} catch (CloneNotSupportedException e) {}
+			} catch (CloneNotSupportedException e) {
+				throw new DivideAndConquerAlgorithmException("Error while cloning objects");
+			}
 		}
 		
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	private ArrayRangeData<T> ConquerTwo(TArray input, ArrayRangeData<T> one, ArrayRangeData<T> another) 
+			throws DivideAndConquerAlgorithmException {
+		if (one.Left  > one.Right || another.Left  > another.Right)
+			throw new DivideAndConquerAlgorithmException("Invalid ranges");
+		if (one.Right + 1 != another.Left)
+			throw new DivideAndConquerAlgorithmException("Ranges must be adjacent");
+		if (one.Sum == null || another.Sum == null)
+			throw new DivideAndConquerAlgorithmException("Both sum must be set");
+		
+		ArrayRangeData<T> crossingRange;
+		
+		try{
+			crossingRange = FindCrossingSubArray(input, one.Right, new ArrayRangeData<T>(one.Left, another.Right));
+			
+			if (crossingRange.Sum.compareTo(one.Sum) >= 0 && crossingRange.Sum.compareTo(another.Sum) >= 0)
+				return crossingRange;
+			if (one.Sum.compareTo(crossingRange.Sum) >= 0 && one.Sum.compareTo(another.Sum) >= 0)
+				return new ArrayRangeData<T>(one.Left, another.Right, (BaseBox<T>)one.Sum.clone());
+			
+			return new ArrayRangeData<T>(one.Left, another.Right, (BaseBox<T>)another.Sum.clone());
+		}
+		catch(CloneNotSupportedException e){
+			throw new DivideAndConquerAlgorithmException("Error while cloning objects");
+		}
+	}
+	
 	@Override
-	protected ArrayRangeData<T> Conquer(List<ArrayRangeData<T>> simples) {
-		// TODO Auto-generated method stub
+	protected ArrayRangeData<T> Conquer(TArray input, List<ArrayRangeData<T>> simples) {
+		
 		return null;
 	}
-
 }

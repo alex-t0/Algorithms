@@ -13,7 +13,7 @@ public abstract class DivideAndConquerAlgorithm<TInput, TResult, TDividedInput, 
 	
 	protected abstract List<TDividedInput> Divide(TInput input) throws DivideAndConquerAlgorithmException;
 	
-	protected abstract TResult Conquer(TInput input, List<TDividedResult> simples);
+	protected abstract TResult Conquer(TInput input, List<TDividedResult> simples) throws DivideAndConquerAlgorithmException;
 	
 	@Override
 	public TResult Process(TInput input) throws AlgorithmException {

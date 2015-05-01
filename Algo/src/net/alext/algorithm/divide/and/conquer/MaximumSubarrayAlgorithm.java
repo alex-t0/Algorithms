@@ -110,8 +110,36 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 	}
 	
 	@Override
-	protected ArrayRangeData<T> Conquer(TArray input, List<ArrayRangeData<T>> simples) {
+	protected ArrayRangeData<T> Conquer(TArray input, List<ArrayRangeData<T>> simples) throws DivideAndConquerAlgorithmException {
 		
-		return null;
+		// simples must contain even elements
+		if (simples.size() % 2 == 1){
+			ArrayRangeData<T> one = simples.get(simples.size() - 1);
+			ArrayRangeData<T> another = simples.get(simples.size() - 2);
+			
+			ArrayRangeData<T> result = ConquerTwo(input, one, another);
+			
+			simples.remove(one);
+			simples.remove(another);
+			simples.add(result);
+		}
+		
+		int index = 0;
+		while (simples.size() > 1){
+			if (index >= simples.size()) index = 0;
+			
+			ArrayRangeData<T> one = simples.get(index);
+			ArrayRangeData<T> another = simples.get(index + 1);
+			
+			ArrayRangeData<T> result = ConquerTwo(input, one, another);
+			
+			simples.add(index, result);
+			simples.remove(one);
+			simples.remove(another);
+			
+			index++;
+		}
+		
+		return simples.get(0);
 	}
 }

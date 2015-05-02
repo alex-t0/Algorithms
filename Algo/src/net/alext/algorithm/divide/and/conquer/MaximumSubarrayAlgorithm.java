@@ -8,10 +8,10 @@ import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerSimpleD
 import net.alext.boxing.BaseBox;
 
 public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends Comparable<T>> 
-	extends DivideAndConquerAlgorithm<TArray, ArrayRangeData<T>, ArrayRangeData<T>, ArrayRangeData<T>> {
+	extends DivideAndConquerAlgorithm<TArray, ArrayRangeSumData<T>, ArrayRangeSumData<T>, ArrayRangeSumData<T>> {
 	
 	@SuppressWarnings("unchecked")
-	private ArrayRangeData<T> FindCrossingSubArray(TArray source, Integer middle, ArrayRangeData<T> boundaries) 
+	private ArrayRangeSumData<T> FindCrossingSubArray(TArray source, Integer middle, ArrayRangeSumData<T> boundaries) 
 			throws DivideAndConquerAlgorithmException, CloneNotSupportedException {
 		
 		if (middle >= boundaries.Right || middle < boundaries.Left) // middle applies to left part
@@ -42,13 +42,13 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 			}
 		}
 		
-		return new ArrayRangeData<T>(leftPosition, rightPosition, leftSum.add(rightSum));
+		return new ArrayRangeSumData<T>(boundaries.Left, boundaries.Right, leftPosition, rightPosition, leftSum.add(rightSum));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected ArrayRangeData<T> ProcessSimple(TArray input,
-			ArrayRangeData<T> simple) throws DivideAndConquerAlgorithmException {
+	protected ArrayRangeSumData<T> ProcessSimple(TArray input,
+			ArrayRangeSumData<T> simple) throws DivideAndConquerAlgorithmException {
 		
 		if (simple == null) 
 			throw new DivideAndConquerSimpleDataNullPointerException();
@@ -58,7 +58,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 			throw new DivideAndConquerAlgorithmException("Input must be simple (length = 1)");
 		
 		try {
-			return new ArrayRangeData<T>(simple.Left, simple.Right, (BaseBox<T>) input.get(simple.Left).clone());
+			return new ArrayRangeSumData<T>(simple.Left, simple.Right, simple.Left, simple.Right, (BaseBox<T>) input.get(simple.Left).clone());
 		}
 		catch (CloneNotSupportedException e){
 			return null;
@@ -67,13 +67,13 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected List<ArrayRangeData<T>> Divide(TArray input) throws DivideAndConquerAlgorithmException {
+	protected List<ArrayRangeSumData<T>> Divide(TArray input) throws DivideAndConquerAlgorithmException {
 		
-		List<ArrayRangeData<T>> result = new ArrayList<>();
+		List<ArrayRangeSumData<T>> result = new ArrayList<>();
 		
 		for (int i = 0; i < input.size(); i++){
 			try {
-				result.add(new ArrayRangeData<T>(i, i, (BaseBox<T>) input.get(i).clone()));
+				result.add(new ArrayRangeSumData<T>(i, i, i, i, (BaseBox<T>) input.get(i).clone()));
 			} catch (CloneNotSupportedException e) {
 				throw new DivideAndConquerAlgorithmException("Error while cloning objects");
 			}
@@ -83,7 +83,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 	}
 
 	@SuppressWarnings("unchecked")
-	private ArrayRangeData<T> ConquerTwo(TArray input, ArrayRangeData<T> one, ArrayRangeData<T> another) 
+	private ArrayRangeSumData<T> ConquerTwo(TArray input, ArrayRangeSumData<T> one, ArrayRangeSumData<T> another) 
 			throws DivideAndConquerAlgorithmException {
 		if (one.Left  > one.Right || another.Left  > another.Right)
 			throw new DivideAndConquerAlgorithmException("Invalid ranges");
@@ -92,17 +92,17 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		if (one.Sum == null || another.Sum == null)
 			throw new DivideAndConquerAlgorithmException("Both sum must be set");
 		
-		ArrayRangeData<T> crossingRange;
+		ArrayRangeSumData<T> crossingRange;
 		
 		try{
-			crossingRange = FindCrossingSubArray(input, one.Right, new ArrayRangeData<T>(one.Left, another.Right));
+			crossingRange = FindCrossingSubArray(input, one.Right, new ArrayRangeSumData<T>(one.Left, another.Right));
 			
 			if (crossingRange.Sum.compareTo(one.Sum) >= 0 && crossingRange.Sum.compareTo(another.Sum) >= 0)
 				return crossingRange;
 			if (one.Sum.compareTo(crossingRange.Sum) >= 0 && one.Sum.compareTo(another.Sum) >= 0)
-				return new ArrayRangeData<T>(one.Left, another.Right, (BaseBox<T>)one.Sum.clone());
+				return new ArrayRangeSumData<T>(one.Left, another.Right, one.MaximumSubArrayIndexLeft, one.MaximumSubArrayIndexRight,  (BaseBox<T>)one.Sum.clone());
 			
-			return new ArrayRangeData<T>(one.Left, another.Right, (BaseBox<T>)another.Sum.clone());
+			return new ArrayRangeSumData<T>(one.Left, another.Right, another.MaximumSubArrayIndexLeft, another.MaximumSubArrayIndexRight, (BaseBox<T>)another.Sum.clone());
 		}
 		catch(CloneNotSupportedException e){
 			throw new DivideAndConquerAlgorithmException("Error while cloning objects");
@@ -110,14 +110,14 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 	}
 	
 	@Override
-	protected ArrayRangeData<T> Conquer(TArray input, List<ArrayRangeData<T>> simples) throws DivideAndConquerAlgorithmException {
+	protected ArrayRangeSumData<T> Conquer(TArray input, List<ArrayRangeSumData<T>> simples) throws DivideAndConquerAlgorithmException {
 		
 		// simples must contain even elements
 		if (simples.size() % 2 == 1){
-			ArrayRangeData<T> one = simples.get(simples.size() - 1);
-			ArrayRangeData<T> another = simples.get(simples.size() - 2);
+			ArrayRangeSumData<T> one = simples.get(simples.size() - 1);
+			ArrayRangeSumData<T> another = simples.get(simples.size() - 2);
 			
-			ArrayRangeData<T> result = ConquerTwo(input, one, another);
+			ArrayRangeSumData<T> result = ConquerTwo(input, one, another);
 			
 			simples.remove(one);
 			simples.remove(another);
@@ -128,10 +128,10 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		while (simples.size() > 1){
 			if (index >= simples.size()) index = 0;
 			
-			ArrayRangeData<T> one = simples.get(index);
-			ArrayRangeData<T> another = simples.get(index + 1);
+			ArrayRangeSumData<T> one = simples.get(index);
+			ArrayRangeSumData<T> another = simples.get(index + 1);
 			
-			ArrayRangeData<T> result = ConquerTwo(input, one, another);
+			ArrayRangeSumData<T> result = ConquerTwo(input, one, another);
 			
 			simples.add(index, result);
 			simples.remove(one);

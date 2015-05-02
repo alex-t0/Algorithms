@@ -45,7 +45,7 @@ public class MaximumSubarrayAlgorithmTests {
 	@Test
 	public void AlgorithmTest() throws AlgorithmException {
 		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayAlgorithm<>();
-		
+		// MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayBruteForceAlgorithm<>();
 		List<BaseBox<Integer>> list = new ArrayList<>();
 		
 		list.add(new IntBox(13));

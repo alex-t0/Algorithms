@@ -7,6 +7,5 @@ public class SortingAlgorithmException extends AlgorithmException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -2620610280470190900L;
 }

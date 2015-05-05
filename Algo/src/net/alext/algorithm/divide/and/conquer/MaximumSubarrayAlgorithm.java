@@ -126,7 +126,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		
 		int index = 0;
 		while (simples.size() > 1){
-			if (index >= simples.size()) index = 0;
+			if (index >= simples.size() - 1) index = 0;
 			
 			ArrayRangeSumData<T> one = simples.get(index);
 			ArrayRangeSumData<T> another = simples.get(index + 1);

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.alext.algorithm.bruteforce.MaximumSubarrayBruteForceAlgorithm;
 import net.alext.algorithm.exceptions.AlgorithmException;
 import net.alext.boxing.BaseBox;
 import net.alext.boxing.IntBox;
@@ -12,6 +13,7 @@ import net.alext.helpers.ReflectionHelper;
 
 import org.junit.Assert;
 import org.junit.Test;
+import net.alext.utils.RandomUtil;
 
 public class MaximumSubarrayAlgorithmTests {
 	@Test
@@ -70,5 +72,31 @@ public class MaximumSubarrayAlgorithmTests {
 		Assert.assertEquals(new Integer(7), result.MaximumSubArrayIndexLeft);
 		Assert.assertEquals(new Integer(10), result.MaximumSubArrayIndexRight);
 		Assert.assertEquals(new Integer(43), result.Sum.unbox());
+	}
+	
+	@Test
+	public void CompareAlgorithmsTest() throws AlgorithmException {
+		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> bruteForce = new MaximumSubarrayBruteForceAlgorithm<>();
+		List<BaseBox<Integer>> listClever = new ArrayList<>();
+		
+		int N = 1200;
+		
+		for (int i = 0; i < N; i++){
+			listClever.add(new IntBox(RandomUtil.getRandomInt(100000)));
+		}
+		
+		List<BaseBox<Integer>> listBruteForce = new ArrayList<>(); 
+		listClever.stream().forEach(x -> { listBruteForce.add(x); });
+		
+		System.out.println("running clever...");
+		ArrayRangeSumData<Integer> resultClever = clever.Process(listClever);
+		System.out.println("clever finished");
+		System.out.println("running brute force...");
+		ArrayRangeSumData<Integer> resultBruteForce = bruteForce.Process(listClever);
+		System.out.println("brute force finished");
+		
+		Assert.assertEquals(resultClever.MaximumSubArrayIndexLeft, resultBruteForce.MaximumSubArrayIndexLeft);
+		Assert.assertEquals(resultClever.MaximumSubArrayIndexRight, resultBruteForce.MaximumSubArrayIndexRight);
 	}
 }

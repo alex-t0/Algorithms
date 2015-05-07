@@ -36,7 +36,8 @@ public class MaximumSubarrayBruteForceAlgorithm<TArray extends List<BaseBox<T>>,
 				for (int j = i; j < input.size(); j++) {
 					BaseBox<T> sum = findSum(input, i, j);
 					
-					if (sum.compareTo(max.Sum) > 0){
+					int compareResult = sum.compareTo(max.Sum);
+					if (compareResult > 0 || (compareResult == 0 && j - i > max.MaximumSubArrayIndexRight - max.MaximumSubArrayIndexLeft)){
 						max.MaximumSubArrayIndexLeft = i;
 						max.MaximumSubArrayIndexRight = j;
 						max.Sum = sum;

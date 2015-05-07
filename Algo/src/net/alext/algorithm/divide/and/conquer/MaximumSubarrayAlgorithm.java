@@ -26,7 +26,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		for (int i = middle; i >= boundaries.Left; i--){
 			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
 			
-			if (leftSum == null || sum.compareTo(leftSum) > 0){
+			if (leftSum == null || sum.compareTo(leftSum) >= 0){
 				leftSum = (BaseBox<T>) sum.clone();
 				leftPosition = i;
 			}
@@ -36,7 +36,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		for (int i = middle + 1; i <= boundaries.Right; i++){
 			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
 			
-			if (rightSum == null || sum.compareTo(rightSum) > 0){
+			if (rightSum == null || sum.compareTo(rightSum) >= 0){
 				rightSum = (BaseBox<T>) sum.clone();
 				rightPosition = i;
 			}
@@ -114,8 +114,8 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		
 		// simples must contain even elements
 		if (simples.size() % 2 == 1){
-			ArrayRangeSumData<T> one = simples.get(simples.size() - 1);
-			ArrayRangeSumData<T> another = simples.get(simples.size() - 2);
+			ArrayRangeSumData<T> one = simples.get(simples.size() - 2);
+			ArrayRangeSumData<T> another = simples.get(simples.size() - 1);
 			
 			ArrayRangeSumData<T> result = ConquerTwo(input, one, another);
 			

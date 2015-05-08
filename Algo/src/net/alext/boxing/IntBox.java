@@ -13,9 +13,16 @@ public class IntBox extends BaseBox<Integer> {
 	@Override
 	public BaseBox<Integer> add(AddableBox<Integer> other) {
 		Integer otherInt = other.unbox();
-		Integer sum = otherInt + instance;
 		IntBox result = new IntBox();
-		result.box(sum);
+		result.box(otherInt + instance);
+		return result;
+	}
+
+	@Override
+	public BaseBox<Integer> multiply(MultiplyableBox<Integer> other) {
+		Integer otherInt = other.unbox();
+		IntBox result = new IntBox();
+		result.box(otherInt * instance);
 		return result;
 	}
 }

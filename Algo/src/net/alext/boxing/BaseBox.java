@@ -2,7 +2,7 @@ package net.alext.boxing;
 
 import com.rits.cloning.Cloner;
 
-public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>, Cloneable {
+public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>, MultiplyableBox<T>, Cloneable {
 
 	protected T instance;
 
@@ -34,6 +34,9 @@ public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>,
 	@Override
 	public abstract BaseBox<T> add(AddableBox<T> other);
 
+	@Override
+	public abstract BaseBox<T> multiply(MultiplyableBox<T> other);
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {

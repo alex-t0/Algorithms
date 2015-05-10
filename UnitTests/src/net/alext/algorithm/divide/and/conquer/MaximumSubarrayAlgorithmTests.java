@@ -8,6 +8,7 @@ import java.util.List;
 import net.alext.algorithm.bruteforce.MaximumSubarrayBruteForceAlgorithm;
 import net.alext.algorithm.exceptions.AlgorithmException;
 import net.alext.boxing.BaseBox;
+import net.alext.boxing.ComparableBaseBox;
 import net.alext.boxing.IntBox;
 import net.alext.helpers.ReflectionHelper;
 
@@ -21,7 +22,7 @@ public class MaximumSubarrayAlgorithmTests {
 	public void FindCrossingSubArrayMethodTest() 
 			throws NoSuchMethodException, SecurityException, 
 					IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayAlgorithm<List<ComparableBaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayAlgorithm<>();
 		
 		ArrayList<IntBox> list = new ArrayList<>();
 		
@@ -47,9 +48,9 @@ public class MaximumSubarrayAlgorithmTests {
 	
 	@Test
 	public void AlgorithmTest() throws AlgorithmException {
-		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayAlgorithm<List<ComparableBaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayAlgorithm<>();
 		// MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> algorithm = new MaximumSubarrayBruteForceAlgorithm<>();
-		List<BaseBox<Integer>> list = new ArrayList<>();
+		List<ComparableBaseBox<Integer>> list = new ArrayList<>();
 		
 		list.add(new IntBox(13));
 		list.add(new IntBox(-3));
@@ -78,9 +79,9 @@ public class MaximumSubarrayAlgorithmTests {
 	
 	@Test
 	public void CompareAlgorithmsOnOneBigArrayTest() throws AlgorithmException {
-		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
-		MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> bruteForce = new MaximumSubarrayBruteForceAlgorithm<>();
-		List<BaseBox<Integer>> listClever = new ArrayList<>();
+		MaximumSubarrayAlgorithm<List<ComparableBaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayBruteForceAlgorithm<List<ComparableBaseBox<Integer>>, Integer> bruteForce = new MaximumSubarrayBruteForceAlgorithm<>();
+		List<ComparableBaseBox<Integer>> listClever = new ArrayList<>();
 		
 		int N = 1000;
 		
@@ -105,10 +106,10 @@ public class MaximumSubarrayAlgorithmTests {
 	
 	@Test
 	public void SpecialTest() throws AlgorithmException {
-		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
-		MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> brute = new MaximumSubarrayBruteForceAlgorithm<>();
-		List<BaseBox<Integer>> list1 = new ArrayList<>();
-		List<BaseBox<Integer>> list2 = new ArrayList<>();
+		MaximumSubarrayAlgorithm<List<ComparableBaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayBruteForceAlgorithm<List<ComparableBaseBox<Integer>>, Integer> brute = new MaximumSubarrayBruteForceAlgorithm<>();
+		List<ComparableBaseBox<Integer>> list1 = new ArrayList<>();
+		List<ComparableBaseBox<Integer>> list2 = new ArrayList<>();
 		
 		list1.add(new IntBox(-83483));		list2.add(new IntBox(-83483));
 		list1.add(new IntBox(3026));		list2.add(new IntBox(3026));
@@ -131,10 +132,10 @@ public class MaximumSubarrayAlgorithmTests {
 
 	@Test
 	public void SpecialTest2() throws AlgorithmException {
-		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
-		MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> brute = new MaximumSubarrayBruteForceAlgorithm<>();
-		List<BaseBox<Integer>> list1 = new ArrayList<>();
-		List<BaseBox<Integer>> list2 = new ArrayList<>();
+		MaximumSubarrayAlgorithm<List<ComparableBaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayBruteForceAlgorithm<List<ComparableBaseBox<Integer>>, Integer> brute = new MaximumSubarrayBruteForceAlgorithm<>();
+		List<ComparableBaseBox<Integer>> list1 = new ArrayList<>();
+		List<ComparableBaseBox<Integer>> list2 = new ArrayList<>();
 		
 		list1.add(new IntBox(-35161));		list2.add(new IntBox(-35161));
 		list1.add(new IntBox(0));		list2.add(new IntBox(0));
@@ -157,17 +158,17 @@ public class MaximumSubarrayAlgorithmTests {
 	
 	@Test
 	public void CompareAlgorithmsOnManySmallArraysTest() throws AlgorithmException {
-		MaximumSubarrayAlgorithm<List<BaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
-		MaximumSubarrayBruteForceAlgorithm<List<BaseBox<Integer>>, Integer> bruteForce = new MaximumSubarrayBruteForceAlgorithm<>();
-		List<List<BaseBox<Integer>>> listClever = new ArrayList<>();
-		List<List<BaseBox<Integer>>> listBruteForce = new ArrayList<>();
+		MaximumSubarrayAlgorithm<List<ComparableBaseBox<Integer>>, Integer> clever = new MaximumSubarrayAlgorithm<>();
+		MaximumSubarrayBruteForceAlgorithm<List<ComparableBaseBox<Integer>>, Integer> bruteForce = new MaximumSubarrayBruteForceAlgorithm<>();
+		List<List<ComparableBaseBox<Integer>>> listClever = new ArrayList<>();
+		List<List<ComparableBaseBox<Integer>>> listBruteForce = new ArrayList<>();
 		
 		int N = 50000;
 		
 		for (int i = 0; i < N; i++){
 			
-			List<BaseBox<Integer>> iterateListClever = new ArrayList<>();
-			List<BaseBox<Integer>> iterateListBruteForce = new ArrayList<>();
+			List<ComparableBaseBox<Integer>> iterateListClever = new ArrayList<>();
+			List<ComparableBaseBox<Integer>> iterateListBruteForce = new ArrayList<>();
 			
 			for (int j = 0; j < 10; j++){
 				int intValue = RandomUtil.getRandomInt(100000);

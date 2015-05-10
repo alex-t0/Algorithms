@@ -5,9 +5,9 @@ import java.util.List;
 
 import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerAlgorithmException;
 import net.alext.algorithm.divide.and.conquer.exceptions.DivideAndConquerSimpleDataNullPointerException;
-import net.alext.boxing.BaseBox;
+import net.alext.boxing.ComparableBaseBox;
 
-public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends Comparable<T>> 
+public class MaximumSubarrayAlgorithm<TArray extends List<ComparableBaseBox<T>>, T extends Comparable<T>> 
 	extends DivideAndConquerAlgorithm<TArray, ArrayRangeSumData<T>, ArrayRangeSumData<T>, ArrayRangeSumData<T>> {
 	
 	@SuppressWarnings("unchecked")
@@ -17,32 +17,32 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		if (middle >= boundaries.Right || middle < boundaries.Left) // middle applies to left part
 			throw new DivideAndConquerAlgorithmException("Invalid middle point: miss interval");
 		
-		BaseBox<T> leftSum = null, rightSum = null;
-		BaseBox<T> sum = null;
+		ComparableBaseBox<T> leftSum = null, rightSum = null;
+		ComparableBaseBox<T> sum = null;
 		
 		Integer leftPosition = 0;
 		Integer rightPosition = 0;
 		
 		for (int i = middle; i >= boundaries.Left; i--){
-			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
+			sum = sum == null ? (ComparableBaseBox<T>) source.get(i).clone() : (ComparableBaseBox<T>) sum.add(source.get(i));
 			
 			if (leftSum == null || sum.compareTo(leftSum) >= 0){
-				leftSum = (BaseBox<T>) sum.clone();
+				leftSum = (ComparableBaseBox<T>) sum.clone();
 				leftPosition = i;
 			}
 		}
 		
 		sum = null;
 		for (int i = middle + 1; i <= boundaries.Right; i++){
-			sum = sum == null ? (BaseBox<T>) source.get(i).clone() : sum.add(source.get(i));
+			sum = sum == null ? (ComparableBaseBox<T>) source.get(i).clone() : (ComparableBaseBox<T>) sum.add(source.get(i));
 			
 			if (rightSum == null || sum.compareTo(rightSum) >= 0){
-				rightSum = (BaseBox<T>) sum.clone();
+				rightSum = (ComparableBaseBox<T>) sum.clone();
 				rightPosition = i;
 			}
 		}
 		
-		return new ArrayRangeSumData<T>(boundaries.Left, boundaries.Right, leftPosition, rightPosition, leftSum.add(rightSum));
+		return new ArrayRangeSumData<T>(boundaries.Left, boundaries.Right, leftPosition, rightPosition, (ComparableBaseBox<T>) leftSum.add(rightSum));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,7 +58,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 			throw new DivideAndConquerAlgorithmException("Input must be simple (length = 1)");
 		
 		try {
-			return new ArrayRangeSumData<T>(simple.Left, simple.Right, simple.Left, simple.Right, (BaseBox<T>) input.get(simple.Left).clone());
+			return new ArrayRangeSumData<T>(simple.Left, simple.Right, simple.Left, simple.Right, (ComparableBaseBox<T>) input.get(simple.Left).clone());
 		}
 		catch (CloneNotSupportedException e){
 			return null;
@@ -73,7 +73,7 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 		
 		for (int i = 0; i < input.size(); i++){
 			try {
-				result.add(new ArrayRangeSumData<T>(i, i, i, i, (BaseBox<T>) input.get(i).clone()));
+				result.add(new ArrayRangeSumData<T>(i, i, i, i, (ComparableBaseBox<T>) input.get(i).clone()));
 			} catch (CloneNotSupportedException e) {
 				throw new DivideAndConquerAlgorithmException("Error while cloning objects");
 			}
@@ -100,9 +100,9 @@ public class MaximumSubarrayAlgorithm<TArray extends List<BaseBox<T>>, T extends
 			if (crossingRange.Sum.compareTo(one.Sum) >= 0 && crossingRange.Sum.compareTo(another.Sum) >= 0)
 				return crossingRange;
 			if (one.Sum.compareTo(crossingRange.Sum) >= 0 && one.Sum.compareTo(another.Sum) >= 0)
-				return new ArrayRangeSumData<T>(one.Left, another.Right, one.MaximumSubArrayIndexLeft, one.MaximumSubArrayIndexRight,  (BaseBox<T>)one.Sum.clone());
+				return new ArrayRangeSumData<T>(one.Left, another.Right, one.MaximumSubArrayIndexLeft, one.MaximumSubArrayIndexRight,  (ComparableBaseBox<T>)one.Sum.clone());
 			
-			return new ArrayRangeSumData<T>(one.Left, another.Right, another.MaximumSubArrayIndexLeft, another.MaximumSubArrayIndexRight, (BaseBox<T>)another.Sum.clone());
+			return new ArrayRangeSumData<T>(one.Left, another.Right, another.MaximumSubArrayIndexLeft, another.MaximumSubArrayIndexRight, (ComparableBaseBox<T>)another.Sum.clone());
 		}
 		catch(CloneNotSupportedException e){
 			throw new DivideAndConquerAlgorithmException("Error while cloning objects");

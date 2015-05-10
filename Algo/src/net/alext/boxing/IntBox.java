@@ -1,10 +1,6 @@
 package net.alext.boxing;
 
-public class IntBox extends BaseBox<Integer> {
-
-	public IntBox() {
-		super();
-	}
+public class IntBox extends ComparableBaseBox<Integer> {
 
 	public IntBox(Integer initValue) {
 		super(initValue);
@@ -13,16 +9,22 @@ public class IntBox extends BaseBox<Integer> {
 	@Override
 	public BaseBox<Integer> add(AddableBox<Integer> other) {
 		Integer otherInt = other.unbox();
-		IntBox result = new IntBox();
-		result.box(otherInt + instance);
-		return result;
+		return new IntBox(otherInt + instance);
 	}
 
 	@Override
 	public BaseBox<Integer> multiply(MultiplyableBox<Integer> other) {
 		Integer otherInt = other.unbox();
-		IntBox result = new IntBox();
-		result.box(otherInt * instance);
-		return result;
+		return new IntBox(otherInt * instance);
+	}
+
+	@Override
+	public AddableBox<Integer> getZero() {
+		return new IntBox(0);
+	}
+
+	@Override
+	public MultiplyableBox<Integer> getOne() {
+		return new IntBox(1);
 	}
 }

@@ -61,7 +61,7 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 			for (int j = 0; j < getY(); j++)
 			{
 				if (get(i, j) == null || other.get(i, j) == null)
-					throw new IllegalStateException("Size must be identical to add");
+					throw new IllegalStateException("Values of matrix must be not null");
 				
 				TValue sum = (TValue) get(i, j).clone();
 				
@@ -69,6 +69,39 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 				
 				result.set(sum, i, j);
 			}
+		
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Matrix<TValue, T> multiply(Matrix<TValue, T> other) throws CloneNotSupportedException {
+		if (getX() != other.getY())
+			throw new IllegalStateException("Illegal number of rows and columns of matrices");
+		
+		Matrix<TValue, T> result = new Matrix<TValue, T>(getX(), other.getY());
+		
+		BaseBox<T> zero = (BaseBox<T>) get(0, 0).getZero();
+		
+		for (int i = 0; i < getX(); i++){
+			for (int j = 0; j < getY(); j++)
+			{
+				// result.set((TValue)zero.clone(), i, j);
+				
+				if (get(i, j) == null || other.get(j, i) == null)
+					throw new IllegalStateException("Values of matrix must be not null");
+				
+				TValue current = result.get(i, j);
+				
+				if (current == null){
+					current = (TValue) zero.clone();
+					result.set(current, i, j);
+				}
+				
+				current = (TValue) current.add(get(i, j).multiply(other.get(j, i)));
+				
+				// result.set(current, i, j);
+			}
+		}
 		
 		return result;
 	}

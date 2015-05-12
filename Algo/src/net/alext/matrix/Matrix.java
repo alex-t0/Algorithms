@@ -101,14 +101,12 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 				
 				TValue current = result.get(i, j);
 				
-				if (current == null){
+				if (current == null)
 					current = (TValue) zero.clone();
-					result.set(current, i, j);
-				}
 				
 				current = (TValue) current.add(get(i, j).multiply(other.get(j, i)));
 				
-				// result.set(current, i, j);
+				result.set(current, i, j);
 			}
 		}
 		

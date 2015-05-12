@@ -2,10 +2,14 @@ package net.alext.boxing;
 
 public class IntBox extends ComparableBaseBox<Integer> {
 
+	public IntBox() {
+		super(0);
+	}
+
 	public IntBox(Integer initValue) {
 		super(initValue);
 	}
-
+	
 	@Override
 	public BaseBox<Integer> add(AddableBox<Integer> other) {
 		Integer otherInt = other.unbox();

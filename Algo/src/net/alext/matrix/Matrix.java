@@ -11,6 +11,15 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 		matrix = (TValue[][]) new BaseBox[rowsCount][colsCount];
 	}
 
+	public Matrix(TValue[][] data) {
+		this(data.length, data[0].length);
+		
+		for (int i = 0; i < data.length; i++)
+			for (int j = 0; j < data[0].length; j++){
+				matrix[i][j] = data[i][j];
+			}
+	}
+	
 	public int getX(){
 		return matrix.length;
 	}
@@ -39,7 +48,7 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 			return false;
 		
 		for (int i = 0; i < getX(); i++)
-			for (int j = 0; i < getY(); j++){
+			for (int j = 0; j < getY(); j++){
 				if (get(i, j) == null || otherMatrix.get(i, j) == null)
 					return false;
 				

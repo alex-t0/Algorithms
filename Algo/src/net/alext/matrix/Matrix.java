@@ -21,11 +21,11 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 	}
 	
 	public int getX(){
-		return matrix.length;
+		return matrix[0].length;
 	}
 	
 	public int getY(){
-		return matrix[0].length;
+		return matrix.length;
 	}
 	
 	public TValue get(int x, int y){
@@ -91,22 +91,26 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 		
 		BaseBox<T> zero = (BaseBox<T>) get(0, 0).getZero();
 		
-		for (int i = 0; i < getX(); i++){
-			for (int j = 0; j < getY(); j++)
-			{
+		for (int i = 0; i < getX(); i++) {
+			for (int j = 0; j < other.getY(); j++) {
 				// result.set((TValue)zero.clone(), i, j);
 				
-				if (get(i, j) == null || other.get(j, i) == null)
-					throw new IllegalStateException("Values of matrix must be not null");
-				
-				TValue current = result.get(i, j);
-				
-				if (current == null)
-					current = (TValue) zero.clone();
-				
-				current = (TValue) current.add(get(i, j).multiply(other.get(j, i)));
-				
-				result.set(current, i, j);
+				for (int t = 0; t < getX(); t++) {
+					TValue v1 = get(i, t);
+					TValue v2 = other.get(t, j);
+					
+					if (v1 == null || v2 == null)
+						throw new IllegalStateException("Values of matrix must be not null");
+					
+					TValue current = result.get(i, j);
+					
+					if (current == null)
+						current = (TValue) zero.clone();
+					
+					current = (TValue) current.add(v1.multiply(v2));
+					
+					result.set(current, i, j);
+				}
 			}
 		}
 		

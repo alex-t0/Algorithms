@@ -8,8 +8,6 @@ public class RandomUtil {
 	
 	public static int getRandomInt(int moduleRange){
 		
-		    // SecureRandom rand = new SecureRandom();
-			
 		    int sign = random.nextInt(2) == 1 ? -1 : 1;
 		    
 		    return sign * random.nextInt(moduleRange);

@@ -1,6 +1,6 @@
 package net.alext.algorithm.divide.and.conquer;
 
-import net.alext.boxing.BaseBox;
+import net.alext.boxing.ComparableBaseBox;
 
 public class ArrayRangeSumData<T extends Comparable<T>> {
 	public int Left;
@@ -9,9 +9,9 @@ public class ArrayRangeSumData<T extends Comparable<T>> {
 	public Integer MaximumSubArrayIndexLeft;
 	public Integer MaximumSubArrayIndexRight;
 	
-	public BaseBox<T> Sum;
+	public ComparableBaseBox<T> Sum;
 
-	public ArrayRangeSumData(int left, int right, Integer leftIndex, Integer rightIndex, BaseBox<T> sum) {
+	public ArrayRangeSumData(int left, int right, Integer leftIndex, Integer rightIndex, ComparableBaseBox<T> sum) {
 		super();
 		Left = left;
 		Right = right;

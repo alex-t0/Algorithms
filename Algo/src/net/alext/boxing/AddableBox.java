@@ -1,5 +1,7 @@
 package net.alext.boxing;
 
-public interface AddableBox<T extends Comparable<T>> extends ComparableBox<T> {
+public interface AddableBox<T> extends Box<T> {
 	public AddableBox<T> add(AddableBox<T> other);
+	
+	public AddableBox<T> getZero();
 }

@@ -2,7 +2,7 @@ package net.alext.boxing;
 
 import com.rits.cloning.Cloner;
 
-public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>, Cloneable {
+public abstract class BaseBox<T> implements AddableBox<T>, MultiplyableBox<T>, Box<T>, Cloneable {
 
 	protected T instance;
 
@@ -16,13 +16,9 @@ public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>,
 	}
 	
 	@Override
-	public int compareTo(ComparableBox<T> other) {
-		return instance.compareTo(other.unbox());
-	}
-
-	@Override
-	public void box(T t) {
+	public BaseBox<T> box(T t) {
 		instance = t;
+		return this;
 	}
 
 	@Override
@@ -34,6 +30,9 @@ public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>,
 	@Override
 	public abstract BaseBox<T> add(AddableBox<T> other);
 
+	@Override
+	public abstract BaseBox<T> multiply(MultiplyableBox<T> other);
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {
@@ -52,5 +51,32 @@ public abstract class BaseBox<T extends Comparable<T>> implements AddableBox<T>,
 		cloneObject.box(clone);
 		
 		return cloneObject;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((instance == null) ? 0 : instance.hashCode());
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BaseBox<T> other = (BaseBox<T>) obj;
+		if (instance == null) {
+			if (other.instance != null)
+				return false;
+		} else if (!instance.equals(other.instance))
+			return false;
+		return true;
 	}
 }

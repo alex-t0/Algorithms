@@ -93,7 +93,6 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>>  {
 		
 		for (int i = 0; i < other.getX(); i++) {
 			for (int j = 0; j < getY(); j++) {
-				// result.set((TValue)zero.clone(), i, j);
 				
 				for (int t = 0; t < getX(); t++) {
 					TValue v1 = get(i, t);

@@ -87,12 +87,12 @@ public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>> {
 		if (getX() != other.getY())
 			throw new IllegalStateException("Illegal number of rows and columns of matrices");
 		
-		Matrix<TValue, T> result = new Matrix<TValue, T>(getX(), other.getY());
+		Matrix<TValue, T> result = new Matrix<TValue, T>(other.getX(), getY());
 		
 		BaseBox<T> zero = (BaseBox<T>) get(0, 0).getZero();
 		
-		for (int i = 0; i < getX(); i++) {
-			for (int j = 0; j < other.getY(); j++) {
+		for (int i = 0; i < other.getX(); i++) {
+			for (int j = 0; j < getY(); j++) {
 				// result.set((TValue)zero.clone(), i, j);
 				
 				for (int t = 0; t < getX(); t++) {

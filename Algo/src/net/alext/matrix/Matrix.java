@@ -2,7 +2,7 @@ package net.alext.matrix;
 
 import net.alext.boxing.BaseBox;
 
-public class Matrix<TValue extends BaseBox<T>, T extends Comparable<T>>  {
+public class Matrix<TValue extends BaseBox<T>, T>  {
 
 	private TValue[][] matrix;
 	

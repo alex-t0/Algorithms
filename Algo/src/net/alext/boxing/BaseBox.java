@@ -2,7 +2,7 @@ package net.alext.boxing;
 
 import com.rits.cloning.Cloner;
 
-public abstract class BaseBox<T> implements AddableBox<T>, MultiplyableBox<T>, Box<T>, Cloneable {
+public abstract class BaseBox<T> implements AddableBox<T>, MultiplyableBox<T>, Cloneable {
 
 	protected T instance;
 
